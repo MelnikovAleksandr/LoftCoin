@@ -10,4 +10,8 @@
     <string name="welcome_page_3_subtitle">Find out how much ether is in one bitcoin</string>
     <string name="start_working">Get Started</string>
 
+    <string name="menu_item_accounts_text">Wallets</string>
+    <string name="menu_item_rate_text">Rate</string>
+    <string name="menu_item_converter_text">Converter</string>
+
 </resources>
