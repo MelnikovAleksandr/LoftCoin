@@ -11,16 +11,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LoftCoin">
         <activity
-            android:name=".activity.SplashActivity" android:noHistory="true"
-            android:exported="true">
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity"/>
-        <activity android:name=".activity.WelcomeActivity"/>
+        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.welcome.WelcomeActivity" />
 
     </application>
 
