@@ -9,4 +9,8 @@
     <string name="welcome_page_3_subtitle">Узнай сколько эфира в одном биткоине.</string>
     <string name="start_working">Начать работу</string>
 
+    <string name="menu_item_accounts_text">Кошельки</string>
+    <string name="menu_item_rate_text">Курс</string>
+    <string name="menu_item_converter_text">Конвертер</string>
+
 </resources>
