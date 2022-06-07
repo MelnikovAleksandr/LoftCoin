@@ -3,11 +3,12 @@ package com.mas.loftcoin.ui.main;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
+import android.view.Menu;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mas.loftcoin.R;
 import com.mas.loftcoin.databinding.ActivityMainBinding;
 
@@ -17,18 +18,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setSupportActionBar(binding.toolbar);
         setContentView(binding.getRoot());
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_fragments);
 
-        if (navHostFragment != null) {
+        final NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_fragments);
+        assert navHostFragment != null;
+        final NavController navController = navHostFragment.getNavController();
 
-            NavController navController = navHostFragment.getNavController();
-
-            NavigationUI.setupWithNavController(bottomNavigationView, navController);
-
-        }
+        NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
+        NavigationUI.setupWithNavController(binding.toolbar, navController, new AppBarConfiguration
+                .Builder(binding.bottomNavigation.getMenu())
+                .build());
     }
 }

@@ -4,11 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.152" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/bg_converter_field.xml" value="0.184" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/bg_wallet_card.xml" value="0.2165" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/btn_welcome_default.xml" value="0.1" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/btn_welcome_selector.xml" value="0.1" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/color_bottom_navigation_icon.xml" value="0.119" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/color_bottom_navigation_text.xml" value="0.119" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/ic_add_24.xml" value="0.2295" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/ic_converter.xml" value="0.1695" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/ic_menu_add_24.xml" value="0.1775" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/ic_rate.xml" value="0.1695" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/ic_wallet.xml" value="0.1695" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/main_icon.xml" value="0.166" />
@@ -16,12 +20,17 @@
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/activity_main.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/activity_splash.xml" value="0.2" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/activity_welcome.xml" value="0.20521590423257802" />
-        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/fragment_converter.xml" value="0.16404077849860982" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/fragment_converter.xml" value="0.4" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/fragment_rate.xml" value="0.16404077849860982" />
-        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/fragment_wallets.xml" value="0.16404077849860982" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/fragment_wallets.xml" value="0.2" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/rate.xml" value="0.20436083796494228" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/transaction.xml" value="0.4" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/transactions.xml" value="0.20436083796494228" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/wallet.xml" value="0.264" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/welcom_page.xml" value="0.20261713803292528" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/welcome_page.xml" value="0.2" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/menu/menu_bottom_navigation.xml" value="0.13160333642261354" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/menu/menu_wallets.xml" value="0.20436083796494228" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.152" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.152" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.xml" value="0.152" />
