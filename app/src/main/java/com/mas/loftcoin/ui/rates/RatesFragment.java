@@ -55,6 +55,7 @@ public class RatesFragment extends Fragment {
         });
         swipeRefreshLayout = view.findViewById(R.id.rateSwipeRefresh);
         swipeRefreshLayout.setOnRefreshListener(() -> {
+            viewModel.refresh();
             binding.recycler.setAdapter(adapter);
             swipeRefreshLayout.setRefreshing(false);
         });
