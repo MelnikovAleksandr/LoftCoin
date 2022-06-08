@@ -17,4 +17,7 @@
 
     <string name="wallets_menu_new_wallet">New wallet</string>
 
+    <string name="rate_menu_item_sort">Sorting</string>
+    <string name="rate_menu_item_currency">Currency</string>
+
 </resources>

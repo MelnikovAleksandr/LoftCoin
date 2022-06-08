@@ -16,4 +16,7 @@
 
     <string name="wallets_menu_new_wallet">Новый кошелек</string>
 
+    <string name="rate_menu_item_sort">Сортировка</string>
+    <string name="rate_menu_item_currency">Валюта</string>
+
 </resources>
