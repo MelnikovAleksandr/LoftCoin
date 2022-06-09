@@ -12,12 +12,10 @@
         android:id="@+id/logo"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:background="@color/blue_grey"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/symbol"

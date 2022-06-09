@@ -29,9 +29,6 @@ public abstract class Coin {
         if (iterator.hasNext()) return iterator.next().change24();
         return 0d;
     }
-
-
-
     @Json(name = "cmc_rank")
     @AutoValue.CopyAnnotations
     public abstract int rank();

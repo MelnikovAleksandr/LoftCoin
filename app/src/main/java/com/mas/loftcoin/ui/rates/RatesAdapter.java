@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mas.loftcoin.BuildConfig;
 import com.mas.loftcoin.R;
 import com.mas.loftcoin.data.Coin;
 import com.mas.loftcoin.databinding.RateBinding;
+import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
@@ -60,6 +62,11 @@ public class RatesAdapter extends ListAdapter<Coin, RatesAdapter.ViewHolder> {
         } else {
             holder.itemView.setBackgroundResource(R.color.dark_two);
         }
+        Picasso.get().load(BuildConfig.IMG_ENDPOINT + getItem(position).id() + ".png")
+                .placeholder(R.drawable.ic_baseline_circle_24)
+                .transform(new CircularTransformation())
+                .error(R.drawable.ic_round_error_24)
+                .into(holder.binding.logo);
     }
 
     @Override
