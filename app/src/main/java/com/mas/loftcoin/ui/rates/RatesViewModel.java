@@ -16,6 +16,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import timber.log.Timber;
+
 public class RatesViewModel extends ViewModel {
 
     private final MutableLiveData<List<Coin>> coins = new MutableLiveData<>();
@@ -41,7 +43,7 @@ public class RatesViewModel extends ViewModel {
             try {
                 coins.postValue(new ArrayList<>(repo.listing("USD")));
             } catch (IOException e) {
-                e.printStackTrace();
+                Timber.d(e, "Error Message");
             }
         });
     }

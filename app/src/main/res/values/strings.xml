@@ -19,4 +19,9 @@
     <string name="rate_menu_item_sort">Сортировка</string>
     <string name="rate_menu_item_currency">Валюта</string>
 
+    <string name="choose_currency">Выбор валюты</string>
+    <string name="usd">Доллар | USD</string>
+    <string name="eur">Евро | EUR</string>
+    <string name="rub">Рубль | RUB</string>
+
 </resources>

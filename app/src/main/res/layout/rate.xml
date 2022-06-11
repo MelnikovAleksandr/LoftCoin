@@ -15,7 +15,9 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/symbol"
@@ -29,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="@+id/price_barrier"
         app:layout_constraintStart_toEndOf="@+id/logo"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="BTC" />
+        tools:text="@sample/coins.json/data/symbol" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/price_barrier"
@@ -48,7 +50,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:text="4808.00 $" />
+        tools:text="@sample/coins.json/data/quote/USD/price" />
 
     <TextView
         android:id="@+id/change"
@@ -59,6 +61,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/price"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:text="+9.29 %" />
+        tools:text="@sample/coins.json/data/quote/USD/percent_change_24h" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

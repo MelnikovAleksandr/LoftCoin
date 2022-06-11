@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AlwaysShowAction">
+
     <item
-        android:id="@+id/menu_add_wallet1"
+        android:id="@+id/currencyDialog"
         android:icon="@drawable/ic_menu_currency_24"
-        app:showAsAction="always"
-        android:title="@string/rate_menu_item_currency" />
+        android:title="@string/rate_menu_item_currency"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_add_wallet2"
         android:icon="@drawable/ic_sort_24"
-        app:showAsAction="always"
         android:title="@string/rate_menu_item_sort"
-        tools:ignore="AlwaysShowAction" />
+        app:showAsAction="always" />
 
 </menu>

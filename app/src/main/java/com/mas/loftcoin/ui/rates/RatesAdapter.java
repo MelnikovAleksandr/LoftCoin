@@ -14,6 +14,8 @@ import com.mas.loftcoin.BuildConfig;
 import com.mas.loftcoin.R;
 import com.mas.loftcoin.data.Coin;
 import com.mas.loftcoin.databinding.RateBinding;
+import com.mas.loftcoin.util.PercentFormatter;
+import com.mas.loftcoin.util.PriceFormatter;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
@@ -22,7 +24,11 @@ public class RatesAdapter extends ListAdapter<Coin, RatesAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
 
-    RatesAdapter() {
+    private final PriceFormatter priceFormatter;
+
+    private final PercentFormatter percentFormatter;
+
+    RatesAdapter(PriceFormatter priceFormatter, PercentFormatter percentFormatter) {
         super(new DiffUtil.ItemCallback<Coin>() {
             @Override
             public boolean areItemsTheSame(@NonNull Coin oldItem, @NonNull Coin newItem) {
@@ -34,6 +40,14 @@ public class RatesAdapter extends ListAdapter<Coin, RatesAdapter.ViewHolder> {
                 return Objects.equals(oldItem, newItem);
             }
         });
+        this.percentFormatter = percentFormatter;
+        this.priceFormatter = priceFormatter;
+        setHasStableIds(true);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return getItem(position).id();
     }
 
     @NonNull
@@ -46,9 +60,10 @@ public class RatesAdapter extends ListAdapter<Coin, RatesAdapter.ViewHolder> {
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.binding.symbol.setText(getItem(position).symbol());
-        holder.binding.price.setText(String.format("%,.6f", getItem(position).price()));
-        holder.binding.change.setText(String.format("%+.4f%%", getItem(position).change24()));
+        final Coin coin = getItem(position);
+        holder.binding.symbol.setText(coin.symbol());
+        holder.binding.price.setText(priceFormatter.format(coin.price()));
+        holder.binding.change.setText(percentFormatter.format(coin.change24()));
         if (getItem(position).change24() > 0) {
             int upColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.weird_green);
             holder.binding.change.setTextColor(upColor);
