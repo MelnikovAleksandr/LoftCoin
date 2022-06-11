@@ -17,6 +17,7 @@ import com.mas.loftcoin.R;
 import com.mas.loftcoin.data.CurrencyRepo;
 import com.mas.loftcoin.data.CurrencyRepoImpl;
 import com.mas.loftcoin.databinding.DialogCurrencyBinding;
+import com.mas.loftcoin.ui.main.MainActivity;
 
 public class CurrencyDialog extends AppCompatDialogFragment {
 
@@ -59,6 +60,7 @@ public class CurrencyDialog extends AppCompatDialogFragment {
     @Override
     public void onDestroy() {
         binding.recycler.setAdapter(null);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.menu_item_rate_text2);
         super.onDestroy();
     }
 }
