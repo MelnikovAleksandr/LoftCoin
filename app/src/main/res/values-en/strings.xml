@@ -17,4 +17,12 @@
 
     <string name="wallets_menu_new_wallet">New wallet</string>
 
+    <string name="rate_menu_item_sort">Sorting</string>
+    <string name="rate_menu_item_currency">Currency</string>
+
+    <string name="choose_currency">Currency selection</string>
+    <string name="usd">Dollar | USD</string>
+    <string name="eur">Euro | EUR</string>
+    <string name="rub">Ruble | RUB</string>
+
 </resources>

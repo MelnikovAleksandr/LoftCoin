@@ -23,6 +23,7 @@
 
         <item name="actionBarTheme">@style/AppTheme.AppBarOverlay</item>
         <item name="actionBarPopupTheme">@style/AppTheme.PopupOverlay</item>
+        <item name="dialogTheme">@style/AppTheme.DialogWindow</item>
 
     </style>
 
@@ -31,5 +32,9 @@
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+
+    <style name="AppTheme.DialogWindow" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="android:background">@color/dark_four</item>
+    </style>
 </resources>
 

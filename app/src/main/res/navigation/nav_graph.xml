@@ -16,4 +16,8 @@
         android:id="@+id/converterFragment"
         android:name="com.mas.loftcoin.ui.converter.ConverterFragment"
         android:label="ConverterFragment" />
+    <dialog
+        android:id="@+id/currencyDialog"
+        android:name="com.mas.loftcoin.ui.currency.CurrencyDialog"
+        android:label="CurrencyDialog" />
 </navigation>
