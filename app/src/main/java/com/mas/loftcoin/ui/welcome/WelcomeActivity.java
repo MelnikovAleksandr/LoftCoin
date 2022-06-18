@@ -18,8 +18,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
     public static final String KEY_SHOW_WELCOME = "show_welcome";
 
-    private ActivityWelcomeBinding binding;
-
     private SnapHelper helper;
 
     @Override
@@ -45,7 +43,6 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         helper.attachToRecyclerView(null);
-        //binding.recycler.setAdapter(null);
         super.onDestroy();
     }
 }

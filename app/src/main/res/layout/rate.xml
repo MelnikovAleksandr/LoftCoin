@@ -12,6 +12,7 @@
         android:id="@+id/logo"
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:background="@color/dark_four"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

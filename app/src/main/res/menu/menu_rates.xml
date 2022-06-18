@@ -11,7 +11,7 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/menu_add_wallet2"
+        android:id="@+id/menu_sort"
         android:icon="@drawable/ic_sort_24"
         android:title="@string/rate_menu_item_sort"
         app:showAsAction="always" />

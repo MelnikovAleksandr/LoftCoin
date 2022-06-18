@@ -2,38 +2,49 @@ package com.mas.loftcoin.ui.currency;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.mas.loftcoin.BaseComponent;
 import com.mas.loftcoin.R;
 import com.mas.loftcoin.data.CurrencyRepo;
-import com.mas.loftcoin.data.CurrencyRepoImpl;
 import com.mas.loftcoin.databinding.DialogCurrencyBinding;
-import com.mas.loftcoin.ui.main.MainActivity;
+import com.mas.loftcoin.util.OnItemClick;
+
+import javax.inject.Inject;
+
 
 public class CurrencyDialog extends AppCompatDialogFragment {
 
-    private DialogCurrencyBinding binding;
+    private final CurrencyComponent component;
 
-    private CurrencyRepo currencyRepo;
+    private DialogCurrencyBinding binding;
 
     private CurrencyAdapter adapter;
 
+    private CurrencyViewModel viewModel;
+
+    private OnItemClick onItemClick;
+
+    @Inject
+    public CurrencyDialog(BaseComponent baseComponent) {
+        component = DaggerCurrencyComponent.builder()
+                .baseComponent(baseComponent)
+                .build();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        currencyRepo = new CurrencyRepoImpl(requireContext());
+        viewModel = new ViewModelProvider(this, component.viewModelFactory())
+                .get(CurrencyViewModel.class);
         adapter = new CurrencyAdapter();
-
     }
 
     @NonNull
@@ -53,14 +64,22 @@ public class CurrencyDialog extends AppCompatDialogFragment {
         super.onActivityCreated(savedInstanceState);
         binding.recycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
         binding.recycler.setAdapter(adapter);
-        currencyRepo.availableCurrencies().observe(this, adapter::submitList);
+        viewModel.allCurrencies().observe(this, adapter::submitList);
+        onItemClick = new OnItemClick((v) -> {
+            final RecyclerView.ViewHolder viewHolder = binding.recycler.findContainingViewHolder(v);
+            if (viewHolder != null) {
+                viewModel.updateCurrency(adapter.getItem(viewHolder.getAdapterPosition()));
+            }
+            dismissAllowingStateLoss();
+        });
+        binding.recycler.addOnItemTouchListener(onItemClick);
     }
 
 
     @Override
     public void onDestroy() {
+        binding.recycler.removeOnItemTouchListener(onItemClick);
         binding.recycler.setAdapter(null);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.menu_item_rate_text2);
         super.onDestroy();
     }
 }
