@@ -20,7 +20,7 @@ public class RatesViewModel extends ViewModel {
 
     private final MutableLiveData<Boolean> isRefreshing = new MutableLiveData<>();
 
-    private final MutableLiveData<AtomicBoolean> forceRefresh = new MutableLiveData<>(new AtomicBoolean(true));
+    private final MutableLiveData<AtomicBoolean> forceRefresh = new MutableLiveData<>(new AtomicBoolean(false));
 
     private final MutableLiveData<SortBy> sortBy = new MutableLiveData<>(SortBy.RANK);
 

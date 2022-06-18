@@ -15,14 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.mas.loftcoin.BaseComponent;
 import com.mas.loftcoin.R;
 import com.mas.loftcoin.databinding.FragmentRateBinding;
 import com.mas.loftcoin.ui.main.MainActivity;
-import com.mas.loftcoin.util.PercentFormatter;
-import com.mas.loftcoin.util.PriceFormatter;
 
 import javax.inject.Inject;
 
@@ -37,7 +34,6 @@ public class RatesFragment extends Fragment {
 
     private RatesViewModel viewModel;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Inject
     public RatesFragment(BaseComponent baseComponent) {
