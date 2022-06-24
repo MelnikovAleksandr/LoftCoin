@@ -23,8 +23,12 @@ import com.mas.loftcoin.ui.main.MainActivity;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.CompositeDisposable;
+
 
 public class RatesFragment extends Fragment {
+
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     private final RatesComponent component;
 
@@ -45,6 +49,7 @@ public class RatesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         viewModel = new ViewModelProvider(this, component.viewModelFactory()).get(RatesViewModel.class);
         adapter = component.ratesAdapter();
 
@@ -67,16 +72,18 @@ public class RatesFragment extends Fragment {
         binding.recycler.setHasFixedSize(true);
         binding.rateSwipeRefresh.setOnRefreshListener(viewModel::refresh);
         binding.rateSwipeRefresh.setColorSchemeColors(Color.MAGENTA, Color.CYAN, Color.GREEN);
-        viewModel.coins().observe(getViewLifecycleOwner(), (coins) -> adapter.submitList(coins));
-        viewModel.isRefreshing().observe(getViewLifecycleOwner(), (refreshing) -> binding.rateSwipeRefresh.setRefreshing(refreshing));
+        disposable.add(viewModel.coins().subscribe(adapter::submitList));
+        disposable.add(viewModel.isRefreshing().subscribe(binding.rateSwipeRefresh::setRefreshing));
 
     }
 
     @Override
     public void onDestroy() {
         binding.recycler.swapAdapter(null, false);
+        disposable.clear();
         super.onDestroy();
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

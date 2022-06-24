@@ -12,33 +12,56 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import com.mas.loftcoin.BaseComponent;
 import com.mas.loftcoin.R;
 import com.mas.loftcoin.databinding.FragmentWalletsBinding;
-import com.mas.loftcoin.ui.main.MainActivity;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.CompositeDisposable;
+
 public class WalletsFragment extends Fragment {
+
+    private final CompositeDisposable disposable = new CompositeDisposable();
+
+    private final WalletsComponent component;
+
+    private FragmentWalletsBinding binding;
+
+    private WalletsViewModel viewModel;
 
     private SnapHelper walletsSnapHelper;
 
-    @Inject
-    public WalletsFragment() {
+    private WalletsAdapter adapter;
 
+    @Inject
+    public WalletsFragment(BaseComponent baseComponent) {
+        component = DaggerWalletsComponent.builder()
+                .baseComponent(baseComponent)
+                .build();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(this, component.viewModelFactory())
+                .get(WalletsViewModel.class);
+        adapter = component.walletsAdapter();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final FragmentWalletsBinding binding = FragmentWalletsBinding.inflate(inflater, container, false);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.menu_item_accounts_text);
         setHasOptionsMenu(true);
-        return binding.getRoot();
+        return inflater.inflate(R.layout.fragment_wallets, container, false);
     }
 
     @Override
@@ -55,18 +78,23 @@ public class WalletsFragment extends Fragment {
         binding.recyclerWallets.setPadding(padding, 0, padding, 0);
         binding.recyclerWallets.setClipToPadding(false);
 
+        binding.recyclerWallets.setLayoutManager(new LinearLayoutManager(view.getContext(), RecyclerView.HORIZONTAL, false));
         binding.recyclerWallets.addOnScrollListener(new CarouselScroller());
 
-        binding.recyclerWallets.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        binding.recyclerWallets.setAdapter(new WalletsAdapter());
-        binding.recyclerWallets.setVisibility(View.VISIBLE);
-        binding.walletCardInFragment.setVisibility(View.GONE);
+        binding.recyclerWallets.setAdapter(adapter);
 
+        disposable.add(viewModel.wallets().subscribe(adapter::submitList));
+        disposable.add(viewModel.wallets().map(List::isEmpty).subscribe((isEmpty) -> {
+            binding.walletCardInFragment.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+            binding.recyclerWallets.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+        }));
     }
 
     @Override
     public void onDestroyView() {
         walletsSnapHelper.attachToRecyclerView(null);
+        binding.recyclerWallets.setAdapter(null);
+        disposable.clear();
         super.onDestroyView();
     }
 
