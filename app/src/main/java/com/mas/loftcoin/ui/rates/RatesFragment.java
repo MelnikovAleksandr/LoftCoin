@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mas.loftcoin.BaseComponent;
 import com.mas.loftcoin.R;
 import com.mas.loftcoin.databinding.FragmentRateBinding;
@@ -49,7 +50,6 @@ public class RatesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
         viewModel = new ViewModelProvider(this, component.viewModelFactory()).get(RatesViewModel.class);
         adapter = component.ratesAdapter();
 
@@ -73,6 +73,10 @@ public class RatesFragment extends Fragment {
         binding.rateSwipeRefresh.setOnRefreshListener(viewModel::refresh);
         binding.rateSwipeRefresh.setColorSchemeColors(Color.MAGENTA, Color.CYAN, Color.GREEN);
         disposable.add(viewModel.coins().subscribe(adapter::submitList));
+        disposable.add(viewModel.onError().subscribe(e ->
+                Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Retry", v -> viewModel.retry())
+                        .show()));
         disposable.add(viewModel.isRefreshing().subscribe(binding.rateSwipeRefresh::setRefreshing));
 
     }

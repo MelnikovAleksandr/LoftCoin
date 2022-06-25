@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
@@ -36,7 +37,9 @@ class WalletsRepoImpl implements WalletsRepo {
     public Observable<List<Wallet>> wallets(@NonNull Currency currency) {
         return Observable
                 .<QuerySnapshot>create(emitter -> {
-                    final ListenerRegistration registration = firestore.collection("wallets")
+                    final ListenerRegistration registration = firestore
+                            .collection("wallets")
+                            .orderBy("at", Query.Direction.ASCENDING)
                             .addSnapshotListener((snapshots, e) -> {
                                 if (emitter.isDisposed()) return;
                                 if (snapshots != null) {
@@ -50,7 +53,7 @@ class WalletsRepoImpl implements WalletsRepo {
                 .map(QuerySnapshot::getDocuments)
                 .switchMapSingle((documents) -> Observable
                         .fromIterable(documents)
-                        .switchMapSingle((document) -> coinsRepo
+                        .flatMapSingle((document) -> coinsRepo
                                 .coin(currency, Objects.requireNonNull(document
                                         .getLong("coinId"), "coinId"))
                                 .map((coin) -> Wallet.create(
@@ -66,6 +69,32 @@ class WalletsRepoImpl implements WalletsRepo {
     @NonNull
     @Override
     public Observable<List<Transaction>> transactions(@NonNull Wallet wallet) {
-        return Observable.empty();
+        return Observable
+                .<QuerySnapshot>create(emitter -> {
+                    final ListenerRegistration registration = firestore
+                            .collection("wallets")
+                            .document(wallet.uid())
+                            .collection("transactions")
+                            .addSnapshotListener((snapshots, e) -> {
+                                if (emitter.isDisposed()) return;
+                                if (snapshots != null) {
+                                    emitter.onNext(snapshots);
+                                } else if (e != null) {
+                                    emitter.tryOnError(e);
+                                }
+                            });
+                    emitter.setCancellable(registration::remove);
+                })
+                .map(QuerySnapshot::getDocuments)
+                .switchMapSingle(documents -> Observable
+                        .fromIterable(documents)
+                        .map(document -> Transaction.create(
+                                document.getId(),
+                                wallet.coin(),
+                                Objects.requireNonNull(document.getDouble("amount")),
+                                document.getDate("at")
+                        ))
+                        .toList()
+                );
     }
 }

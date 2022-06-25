@@ -9,6 +9,7 @@ import com.mas.loftcoin.data.CurrencyRepo;
 import com.mas.loftcoin.data.SortBy;
 import com.mas.loftcoin.util.RxSchedulers;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -17,6 +18,7 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 
 public class RatesViewModel extends ViewModel {
@@ -26,6 +28,10 @@ public class RatesViewModel extends ViewModel {
     private final Subject<Class<?>> pullToRefresh = BehaviorSubject.createDefault(Void.TYPE);
 
     private final Subject<SortBy> sortBy = BehaviorSubject.createDefault(SortBy.RANK);
+
+    private final Subject<Throwable> error = PublishSubject.create();
+
+    private final Subject<Class<?>> onRetry = PublishSubject.create();
 
     private final AtomicBoolean forceUpdate = new AtomicBoolean();
 
@@ -47,8 +53,14 @@ public class RatesViewModel extends ViewModel {
                 .switchMap(qb -> sortBy.map(qb::sortBy))
                 .map(qb -> qb.forceUpdate(forceUpdate.getAndSet(false)))
                 .map(CoinsRepo.Query.Builder::build)
-                .switchMap(coinsRepo::listings)
-                .doOnEach(ntf -> isRefreshing.onNext(false));
+                .switchMap(q -> coinsRepo.listings(q)
+                                .doOnError(error::onNext)
+                                .retryWhen(e -> onRetry)
+//                        .onErrorReturnItem(Collections.emptyList())
+                )
+                .doOnEach(ntf -> isRefreshing.onNext(false))
+                .replay(1)
+                .autoConnect();
 
     }
 
@@ -62,11 +74,21 @@ public class RatesViewModel extends ViewModel {
         return isRefreshing.observeOn(schedulers.main());
     }
 
+    @NonNull
+    Observable<Throwable> onError() {
+        return error.observeOn(schedulers.main());
+    }
+
+
     final void refresh() {
         pullToRefresh.onNext(Void.TYPE);
     }
 
     void switchSortingOrder() {
         sortBy.onNext(SortBy.values()[sortingIndex++ % SortBy.values().length]);
+    }
+
+    void retry() {
+        onRetry.onNext(Void.class);
     }
 }
