@@ -15,9 +15,12 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.mas.loftcoin.BaseComponent;
+import com.mas.loftcoin.BuildConfig;
 import com.mas.loftcoin.R;
 import com.mas.loftcoin.databinding.FragmentConverterBinding;
 import com.mas.loftcoin.ui.main.MainActivity;
+import com.mas.loftcoin.util.ImageLoader;
+import com.mas.loftcoin.widget.OutlineCircle;
 
 import javax.inject.Inject;
 
@@ -29,15 +32,18 @@ public class ConverterFragment extends Fragment {
 
     private final ConverterComponent component;
 
+    private final ImageLoader imageLoader;
+
     private FragmentConverterBinding binding;
 
     private ConverterViewModel viewModel;
 
     @Inject
-    public ConverterFragment(BaseComponent baseComponent) {
+    public ConverterFragment(BaseComponent baseComponent, ImageLoader imageLoader) {
         component = DaggerConverterComponent.builder()
                 .baseComponent(baseComponent)
                 .build();
+        this.imageLoader = imageLoader;
     }
 
     @Override
@@ -61,6 +67,9 @@ public class ConverterFragment extends Fragment {
 
         final NavController navController = NavHostFragment.findNavController(this);
 
+        OutlineCircle.apply(binding.logo1);
+        OutlineCircle.apply(binding.logo2);
+
         disposable.add(viewModel.topCoins().subscribe());
 
         disposable.add(RxView.clicks(binding.fromCoin).subscribe(v -> {
@@ -77,9 +86,13 @@ public class ConverterFragment extends Fragment {
 
         disposable.add(viewModel.fromCoin().subscribe(coin -> {
             binding.fromCoin.setText(coin.symbol());
+            imageLoader.load(BuildConfig.IMG_ENDPOINT + coin.id() + ".png")
+                    .into(binding.logo1);
         }));
         disposable.add(viewModel.toCoin().subscribe(coin -> {
             binding.toCoin.setText(coin.symbol());
+            imageLoader.load(BuildConfig.IMG_ENDPOINT + coin.id() + ".png")
+                    .into(binding.logo2);
         }));
 
         disposable.add(RxTextView.textChanges(binding.from).subscribe(viewModel::fromValue));

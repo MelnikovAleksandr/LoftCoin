@@ -2,6 +2,7 @@ package com.mas.loftcoin.util;
 
 import androidx.annotation.NonNull;
 
+import com.mas.loftcoin.data.Transaction;
 import com.mas.loftcoin.data.Wallet;
 
 import java.text.DecimalFormat;
@@ -27,6 +28,16 @@ public class BalanceFormatter implements Formatter<Wallet> {
         symbols.setCurrencySymbol(value.coin().symbol());
         format.setDecimalFormatSymbols(symbols);
         return format.format(value.balance());
+
+    }
+
+    @NonNull
+    public String format(@NonNull Transaction transaction) {
+        final DecimalFormat format = (DecimalFormat) NumberFormat.getCurrencyInstance();
+        final DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
+        symbols.setCurrencySymbol(transaction.coin().symbol());
+        format.setDecimalFormatSymbols(symbols);
+        return format.format(transaction.amount());
 
     }
 }

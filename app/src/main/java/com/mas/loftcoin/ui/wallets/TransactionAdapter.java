@@ -1,8 +1,10 @@
 package com.mas.loftcoin.ui.wallets;
 
+import android.graphics.drawable.Drawable;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -25,7 +27,6 @@ class TransactionAdapter extends ListAdapter<Transaction, TransactionAdapter.Vie
     private final BalanceFormatter balanceFormatter;
 
     private LayoutInflater inflater;
-
 
     @Inject
     TransactionAdapter(PriceFormatter priceFormatter, BalanceFormatter balanceFormatter) {
@@ -53,7 +54,7 @@ class TransactionAdapter extends ListAdapter<Transaction, TransactionAdapter.Vie
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Transaction transaction = getItem(position);
-        holder.binding.amount1.setText(priceFormatter.format(transaction.amount()));
+        holder.binding.amount1.setText(balanceFormatter.format(transaction));
         final double fiatAmount = transaction.amount() * transaction.coin().price();
         if (getItem(position).amount() > 0) {
             int upColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.weird_green);
@@ -61,6 +62,11 @@ class TransactionAdapter extends ListAdapter<Transaction, TransactionAdapter.Vie
         } else {
             int downColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.watermelon);
             holder.binding.amount2.setTextColor(downColor);
+        }
+        if (transaction.amount() < 0) {
+            holder.binding.transactionIcon.setImageResource(R.drawable.ic_shape_down);
+        } else {
+            holder.binding.transactionIcon.setImageResource(R.drawable.ic_shape_up);
         }
 
         holder.binding.amount2.setText(priceFormatter.format(transaction.coin().currencyCode(), fiatAmount));

@@ -3,6 +3,7 @@ package com.mas.loftcoin.ui.wallets;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
+import com.mas.loftcoin.data.Coin;
 import com.mas.loftcoin.data.CurrencyRepo;
 import com.mas.loftcoin.data.Transaction;
 import com.mas.loftcoin.data.Wallet;
@@ -29,6 +30,10 @@ class WalletsViewModel extends ViewModel {
 
     private final RxSchedulers schedulers;
 
+    private final WalletsRepo walletsRepo;
+
+    private final CurrencyRepo currencyRepo;
+
     @Inject
     WalletsViewModel(WalletsRepo walletsRepo, CurrencyRepo currencyRepo, RxSchedulers schedulers) {
         this.schedulers = schedulers;
@@ -43,6 +48,8 @@ class WalletsViewModel extends ViewModel {
                 .switchMap(walletsRepo::transactions)
                 .replay(1)
                 .autoConnect();
+        this.walletsRepo = walletsRepo;
+        this.currencyRepo = currencyRepo;
     }
 
     @NonNull
@@ -58,7 +65,20 @@ class WalletsViewModel extends ViewModel {
 
     @NonNull
     Completable addWallet() {
-        return Completable.fromAction(() -> Timber.d("~"));
+        return wallets
+                .switchMapSingle((list) -> Observable
+                        .fromIterable(list)
+                        .map(Wallet::coin)
+                        .map(Coin::id)
+                        .toList()
+                )
+                .switchMapCompletable((ids) -> currencyRepo
+                        .currency()
+                        .firstOrError()
+                        .map((c) -> walletsRepo.addWallet(c, ids))
+                        .ignoreElement()
+                )
+                .observeOn(schedulers.main());
     }
 
     void changeWallet(int position) {

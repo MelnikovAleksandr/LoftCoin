@@ -21,6 +21,9 @@ public interface CoinsRepo {
     @NonNull
     Observable<List<Coin>> topCoins(@NonNull Currency currency);
 
+    @NonNull
+    Single<Coin> nextPopularCoin(@NonNull Currency currency, List<Integer> ids);
+
     @AutoValue
     abstract class Query {
 

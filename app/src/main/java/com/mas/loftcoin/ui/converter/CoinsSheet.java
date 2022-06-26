@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.mas.loftcoin.BaseComponent;
 import com.mas.loftcoin.R;
+import com.mas.loftcoin.databinding.BottomSheetBinding;
 import com.mas.loftcoin.databinding.DialogCurrencyBinding;
 import com.mas.loftcoin.widget.RecyclerViews;
 
@@ -32,7 +33,7 @@ public class CoinsSheet extends BottomSheetDialogFragment {
 
     private final ConverterComponent component;
 
-    private DialogCurrencyBinding binding;
+    private BottomSheetBinding binding;
 
     private ConverterViewModel viewModel;
 
@@ -61,13 +62,13 @@ public class CoinsSheet extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.dialog_currency, container, false);
+        return inflater.inflate(R.layout.bottom_sheet, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding = DialogCurrencyBinding.bind(view);
+        binding = BottomSheetBinding.bind(view);
 
         binding.recycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
         binding.recycler.setAdapter(adapter);

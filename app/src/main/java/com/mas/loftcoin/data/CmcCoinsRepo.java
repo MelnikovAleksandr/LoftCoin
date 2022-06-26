@@ -13,6 +13,7 @@ import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import timber.log.Timber;
 
 
 @Singleton
@@ -60,9 +61,18 @@ class CmcCoinsRepo implements CoinsRepo {
     @Override
     public Observable<List<Coin>> topCoins(@NonNull Currency currency) {
         return listings(Query.builder().currency(currency.code()).forceUpdate(false).build())
-                .switchMap(coins -> db.coins().fetchTop(3))
+                .switchMap(coins -> db.coins().fetchTop(50))
                 .<List<Coin>>map(Collections::unmodifiableList);
 
+    }
+
+    @NonNull
+    @Override
+    public Single<Coin> nextPopularCoin(@NonNull Currency currency, List<Integer> ids) {
+        return listings(Query.builder().currency(currency.code()).forceUpdate(false).build())
+                .switchMapSingle((coins) -> db.coins().nextPopularCoin(ids))
+                .firstOrError()
+                .map((coin) -> coin);
     }
 
     private Observable<List<RoomCoin>> fetchFromDb(Query query) {
