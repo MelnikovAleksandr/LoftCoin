@@ -57,7 +57,6 @@ public class RatesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.menu_item_rate_text2);
         return inflater.inflate(R.layout.fragment_rate, container, false);
     }
 
@@ -81,12 +80,11 @@ public class RatesFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         binding.recycler.swapAdapter(null, false);
         disposable.clear();
-        super.onDestroy();
+        super.onDestroyView();
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

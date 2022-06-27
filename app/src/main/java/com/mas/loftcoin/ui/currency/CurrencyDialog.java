@@ -76,9 +76,9 @@ public class CurrencyDialog extends AppCompatDialogFragment {
 
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         binding.recycler.removeOnItemTouchListener(onItemClick);
         binding.recycler.setAdapter(null);
-        super.onDestroy();
+        super.onDestroyView();
     }
 }
