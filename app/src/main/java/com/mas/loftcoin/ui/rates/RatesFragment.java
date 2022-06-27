@@ -39,7 +39,6 @@ public class RatesFragment extends Fragment {
 
     private RatesViewModel viewModel;
 
-
     @Inject
     public RatesFragment(BaseComponent baseComponent) {
         component = DaggerRatesComponent.builder()
@@ -58,7 +57,7 @@ public class RatesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.menu_item_rate_text2);
+        //((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.menu_item_rate_text2);
         return inflater.inflate(R.layout.fragment_rate, container, false);
     }
 

@@ -16,7 +16,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
@@ -54,9 +53,9 @@ public class RatesViewModel extends ViewModel {
                 .map(qb -> qb.forceUpdate(forceUpdate.getAndSet(false)))
                 .map(CoinsRepo.Query.Builder::build)
                 .switchMap(q -> coinsRepo.listings(q)
-                                .doOnError(error::onNext)
-                                .retryWhen(e -> onRetry)
-//                        .onErrorReturnItem(Collections.emptyList())
+                        .doOnError(error::onNext)
+                        .retryWhen(e -> onRetry)
+                        .onErrorReturnItem(Collections.emptyList())
                 )
                 .doOnEach(ntf -> isRefreshing.onNext(false))
                 .replay(1)

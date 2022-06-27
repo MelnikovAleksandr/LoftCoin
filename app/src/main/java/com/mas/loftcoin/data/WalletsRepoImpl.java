@@ -114,7 +114,7 @@ class WalletsRepoImpl implements WalletsRepo {
                     Map<String, Object> data = new HashMap<>();
                     data.put("balance", 100 * (random.nextDouble() + 0.01));
                     data.put("coinId", coin.id());
-                    data.put("created_at", FieldValue.serverTimestamp());
+                    data.put("at", FieldValue.serverTimestamp());
                     return data;
                 })
                 .flatMapCompletable((wallet) -> Completable.create((emitter) -> {

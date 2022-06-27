@@ -41,9 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         setContentView(binding.getRoot());
 
-        final NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_fragments);
-        assert navHostFragment != null;
-        final NavController navController = navHostFragment.getNavController();
+        final NavController navController = Navigation.findNavController(this, R.id.nav_fragments);
 
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
         NavigationUI.setupWithNavController(binding.toolbar, navController, new AppBarConfiguration
