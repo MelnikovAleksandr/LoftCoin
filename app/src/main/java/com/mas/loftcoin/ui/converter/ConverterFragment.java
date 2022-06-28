@@ -13,8 +13,11 @@ import com.mas.loftcoin.R;
 import com.mas.loftcoin.databinding.FragmentConverterBinding;
 import com.mas.loftcoin.ui.main.MainActivity;
 
+import javax.inject.Inject;
+
 public class ConverterFragment extends Fragment {
 
+    @Inject
     public ConverterFragment() {
 
     }

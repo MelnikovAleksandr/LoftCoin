@@ -1,5 +1,6 @@
 package com.mas.loftcoin.ui.rates;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,16 +15,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.mas.loftcoin.BaseComponent;
 import com.mas.loftcoin.R;
 import com.mas.loftcoin.databinding.FragmentRateBinding;
 import com.mas.loftcoin.ui.main.MainActivity;
-import com.mas.loftcoin.util.PercentFormatter;
-import com.mas.loftcoin.util.PriceFormatter;
+
+import javax.inject.Inject;
 
 
 public class RatesFragment extends Fragment {
+
+    private final RatesComponent component;
 
     private FragmentRateBinding binding;
 
@@ -31,13 +34,19 @@ public class RatesFragment extends Fragment {
 
     private RatesViewModel viewModel;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
+
+    @Inject
+    public RatesFragment(BaseComponent baseComponent) {
+        component = DaggerRatesComponent.builder()
+                .baseComponent(baseComponent)
+                .build();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(RatesViewModel.class);
-        adapter = new RatesAdapter(new PriceFormatter(), new PercentFormatter());
+        viewModel = new ViewModelProvider(this, component.viewModelFactory()).get(RatesViewModel.class);
+        adapter = component.ratesAdapter();
 
     }
 
@@ -56,14 +65,11 @@ public class RatesFragment extends Fragment {
         binding.recycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
         binding.recycler.swapAdapter(adapter, false);
         binding.recycler.setHasFixedSize(true);
-        viewModel.coins().observe(getViewLifecycleOwner(), (coins) -> {
-            adapter.submitList(coins);
-        });
-        swipeRefreshLayout = view.findViewById(R.id.rateSwipeRefresh);
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            viewModel.refresh();
-            swipeRefreshLayout.setRefreshing(false);
-        });
+        binding.rateSwipeRefresh.setOnRefreshListener(viewModel::refresh);
+        binding.rateSwipeRefresh.setColorSchemeColors(Color.MAGENTA, Color.CYAN, Color.GREEN);
+        viewModel.coins().observe(getViewLifecycleOwner(), (coins) -> adapter.submitList(coins));
+        viewModel.isRefreshing().observe(getViewLifecycleOwner(), (refreshing) -> binding.rateSwipeRefresh.setRefreshing(refreshing));
+
     }
 
     @Override
@@ -78,6 +84,9 @@ public class RatesFragment extends Fragment {
             NavHostFragment
                     .findNavController(this)
                     .navigate(R.id.currencyDialog);
+            return true;
+        } else if (R.id.menu_sort == item.getItemId()) {
+            viewModel.switchSortingOrder();
             return true;
         }
         return super.onOptionsItemSelected(item);

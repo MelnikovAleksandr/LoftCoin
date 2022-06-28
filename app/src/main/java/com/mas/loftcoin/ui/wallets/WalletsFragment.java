@@ -6,7 +6,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -22,13 +21,17 @@ import com.mas.loftcoin.R;
 import com.mas.loftcoin.databinding.FragmentWalletsBinding;
 import com.mas.loftcoin.ui.main.MainActivity;
 
+import javax.inject.Inject;
+
 public class WalletsFragment extends Fragment {
 
     private SnapHelper walletsSnapHelper;
 
+    @Inject
     public WalletsFragment() {
 
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,7 +78,7 @@ public class WalletsFragment extends Fragment {
                 final View child = recyclerView.getChildAt(i);
                 final int childCenterX = (child.getLeft() + child.getRight()) / 2;
                 final float childOffset = Math.abs(centerX - childCenterX) / (float) centerX;
-                float factor = (float) (Math.pow(0.8,childOffset));
+                float factor = (float) (Math.pow(0.8, childOffset));
                 child.setScaleX(factor);
                 child.setScaleY(factor);
             }
