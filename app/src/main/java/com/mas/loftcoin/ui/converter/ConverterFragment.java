@@ -95,7 +95,7 @@ public class ConverterFragment extends Fragment {
                     .into(binding.logo2);
         }));
 
-        disposable.add(RxTextView.textChanges(binding.from).subscribe(viewModel::fromValue));
+        disposable.add(RxTextView.textChanges(binding.from).skipInitialValue().subscribe(viewModel::fromValue));
 
         disposable.add(RxTextView.textChanges(binding.to).subscribe(viewModel::toValue));
 
