@@ -1,5 +1,6 @@
 package com.mas.loftcoin.ui.converter;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +19,14 @@ import com.mas.loftcoin.BaseComponent;
 import com.mas.loftcoin.BuildConfig;
 import com.mas.loftcoin.R;
 import com.mas.loftcoin.databinding.FragmentConverterBinding;
-import com.mas.loftcoin.ui.main.MainActivity;
 import com.mas.loftcoin.util.ImageLoader;
 import com.mas.loftcoin.widget.OutlineCircle;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
+import kotlin.Unit;
 
 public class ConverterFragment extends Fragment {
 
@@ -60,6 +62,7 @@ public class ConverterFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -72,17 +75,23 @@ public class ConverterFragment extends Fragment {
 
         disposable.add(viewModel.topCoins().subscribe());
 
-        disposable.add(RxView.clicks(binding.fromCoin).subscribe(v -> {
+        Observable<Unit> observable1 = RxView.clicks(binding.fromCoin);
+        Observable<Unit> observable2 = RxView.clicks(binding.logo1);
+
+        Observable<Unit> observable3 = RxView.clicks(binding.toCoin);
+        Observable<Unit> observable4 = RxView.clicks(binding.logo2);
+
+        Observable.merge(observable1, observable2).subscribe(v -> {
             final Bundle args = new Bundle();
             args.putInt(CoinsSheet.KEY_MODE, CoinsSheet.MODE_FROM);
             navController.navigate(R.id.coins_sheet, args);
-        }));
+        });
 
-        disposable.add(RxView.clicks(binding.toCoin).subscribe(v -> {
+        Observable.merge(observable3, observable4).subscribe(v -> {
             final Bundle args = new Bundle();
             args.putInt(CoinsSheet.KEY_MODE, CoinsSheet.MODE_TO);
             navController.navigate(R.id.coins_sheet, args);
-        }));
+        });
 
         disposable.add(viewModel.fromCoin().subscribe(coin -> {
             binding.fromCoin.setText(coin.symbol());
