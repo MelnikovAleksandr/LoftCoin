@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -11,8 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.mas.loftcoin.R;
-import com.mas.loftcoin.ui.welcome.WelcomeActivity;
 import com.mas.loftcoin.ui.main.MainActivity;
+import com.mas.loftcoin.ui.welcome.WelcomeActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,16 +29,23 @@ public class SplashActivity extends AppCompatActivity {
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-
     private SharedPreferences preferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        final Animation animationRotateCenterUP = AnimationUtils.loadAnimation(
+                this, R.anim.rotate_center_clockwise);
+        final Animation animationRotateCenterDown = AnimationUtils.loadAnimation(
+                this, R.anim.rotate_center_counterclock);
+        ImageView imageView1 = findViewById(R.id.start_top_corner);
+        ImageView imageView2 = findViewById(R.id.start_bottom_corner);
+        imageView1.startAnimation(animationRotateCenterUP);
+        imageView2.startAnimation(animationRotateCenterDown);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        compositeDisposable.add(Completable.timer(2000, TimeUnit.MILLISECONDS)
+        compositeDisposable.add(Completable.timer(3000, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() ->
@@ -50,7 +60,6 @@ public class SplashActivity extends AppCompatActivity {
                 }));
 
     }
-
 
     @Override
     protected void onStop() {

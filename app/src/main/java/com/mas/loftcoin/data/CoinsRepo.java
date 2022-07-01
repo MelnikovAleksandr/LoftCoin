@@ -1,24 +1,37 @@
 package com.mas.loftcoin.data;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.WorkerThread;
-import androidx.lifecycle.LiveData;
 
 import com.google.auto.value.AutoValue;
 
-import java.io.IOException;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.Single;
 
 public interface CoinsRepo {
 
     @NonNull
-    LiveData<List<Coin>> listings(@NonNull Query query);
+    Observable<List<Coin>> listings(@NonNull Query query);
+
+    @NonNull
+    Single<Coin> coin(Currency currency, long id);
+
+    @NonNull
+    Observable<List<Coin>> topCoins(@NonNull Currency currency);
+
+    @NonNull
+    Single<Coin> nextPopularCoin(@NonNull Currency currency, List<Integer> ids);
 
     @AutoValue
     abstract class Query {
+
+        @NonNull
         public static Builder builder() {
             return new AutoValue_CoinsRepo_Query.Builder()
-                    .forceUpdate(true);
+                    .forceUpdate(true)
+                    .sortBy(SortBy.RANK);
         }
 
         abstract String currency();

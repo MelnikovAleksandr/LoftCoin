@@ -26,6 +26,10 @@ import javax.inject.Inject;
 
 public class RatesAdapter extends ListAdapter<Coin, RatesAdapter.ViewHolder> {
 
+    private static final int ODD_POSITION = 1;
+
+    private static final int EVEN_POSITION = 0;
+
     private LayoutInflater inflater;
 
     private final PriceFormatter priceFormatter;
@@ -84,10 +88,9 @@ public class RatesAdapter extends ListAdapter<Coin, RatesAdapter.ViewHolder> {
             int downColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.watermelon);
             holder.binding.change.setTextColor(downColor);
         }
-        if (position % 2 == 1) {
+        if (getItemViewType(position) == ODD_POSITION) {
             holder.itemView.setBackgroundResource(R.color.dark_three);
-
-        } else {
+        } else if (getItemViewType(position) == EVEN_POSITION) {
             holder.itemView.setBackgroundResource(R.color.dark_two);
         }
         imageLoader
@@ -121,6 +124,15 @@ public class RatesAdapter extends ListAdapter<Coin, RatesAdapter.ViewHolder> {
             super(binding.getRoot());
             this.binding = binding;
             OutlineCircle.apply(binding.logo);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position % 2 == 0) {
+            return EVEN_POSITION;
+        } else {
+            return ODD_POSITION;
         }
     }
 }

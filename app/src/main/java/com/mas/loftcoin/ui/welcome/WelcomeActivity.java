@@ -20,10 +20,12 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private SnapHelper helper;
 
+    private ActivityWelcomeBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final ActivityWelcomeBinding binding = ActivityWelcomeBinding.inflate(getLayoutInflater());
+        binding = ActivityWelcomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.recycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         binding.recycler.setAdapter(new WelcomeAdapter());
@@ -43,6 +45,7 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         helper.attachToRecyclerView(null);
+        binding.recycler.setAdapter(null);
         super.onDestroy();
     }
 }

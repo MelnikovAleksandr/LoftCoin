@@ -20,4 +20,9 @@
         android:id="@+id/currencyDialog"
         android:name="com.mas.loftcoin.ui.currency.CurrencyDialog"
         android:label="@string/choose_currency" />
+
+    <dialog
+        android:id="@+id/coins_sheet"
+        android:name="com.mas.loftcoin.ui.converter.CoinsSheet"
+        android:label="@string/choose_currency" />
 </navigation>

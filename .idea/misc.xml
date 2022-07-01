@@ -19,20 +19,24 @@
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/ic_menu_currency_24.xml" value="0.1525" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/ic_rate.xml" value="0.1695" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/ic_round_error_24.xml" value="0.1875" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/ic_shape_down.xml" value="0.221" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/ic_shape_up.xml" value="0.221" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/ic_sort_24.xml" value="0.1525" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/ic_wallet.xml" value="0.1695" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/main_icon.xml" value="0.166" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/drawable/main_icon2.xml" value="0.166" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/activity_main.xml" value="0.20521590423257802" />
-        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/activity_splash.xml" value="0.2" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/activity_splash.xml" value="0.152" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/activity_welcome.xml" value="0.20521590423257802" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/bottom_sheet.xml" value="0.20436083796494228" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/coin_sheet.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/currency.xml" value="0.20436083796494228" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/dialog_currency.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/fragment_converter.xml" value="0.4" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/fragment_rate.xml" value="0.16404077849860982" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/fragment_wallets.xml" value="0.2" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/rate.xml" value="0.20436083796494228" />
-        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/transaction.xml" value="0.4" />
+        <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/transaction.xml" value="0.536" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/transactions.xml" value="0.20436083796494228" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/wallet.xml" value="0.264" />
         <entry key="..\:/Users/melni/AndroidStudioProjects/LoftCoin2/app/src/main/res/layout/welcom_page.xml" value="0.20261713803292528" />

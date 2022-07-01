@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentFactory;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -40,9 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         setContentView(binding.getRoot());
 
-        final NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_fragments);
-        assert navHostFragment != null;
-        final NavController navController = navHostFragment.getNavController();
+        final NavController navController = Navigation.findNavController(this, R.id.nav_fragments);
 
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
         NavigationUI.setupWithNavController(binding.toolbar, navController, new AppBarConfiguration

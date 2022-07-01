@@ -3,6 +3,7 @@ package com.mas.loftcoin.ui.main;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentFactory;
 
+import com.mas.loftcoin.ui.converter.CoinsSheet;
 import com.mas.loftcoin.ui.converter.ConverterFragment;
 import com.mas.loftcoin.ui.currency.CurrencyDialog;
 import com.mas.loftcoin.ui.rates.RatesFragment;
@@ -39,5 +40,10 @@ public abstract class MainModule {
     @IntoMap
     @ClassKey(CurrencyDialog.class)
     abstract Fragment currencyDialog(CurrencyDialog impl);
+
+    @Binds
+    @IntoMap
+    @ClassKey(CoinsSheet.class)
+    abstract Fragment coinsSheet(CoinsSheet impl);
 
 }

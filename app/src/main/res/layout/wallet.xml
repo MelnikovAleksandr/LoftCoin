@@ -8,11 +8,11 @@
 
     <ImageView
         android:id="@+id/logo_wallet"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginStart="24dp"
         android:layout_marginBottom="20dp"
-        android:background="@color/slate"
+        android:background="@drawable/bg_wallet_card"
         app:layout_constraintBottom_toTopOf="@+id/wallet_image"
         app:layout_constraintStart_toStartOf="parent"
         tools:src="@tools:sample/avatars" />
@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/name_wallet"
+        android:id="@+id/symbol"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"

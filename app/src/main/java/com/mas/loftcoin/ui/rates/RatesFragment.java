@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mas.loftcoin.BaseComponent;
 import com.mas.loftcoin.R;
 import com.mas.loftcoin.databinding.FragmentRateBinding;
@@ -23,8 +24,12 @@ import com.mas.loftcoin.ui.main.MainActivity;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.CompositeDisposable;
+
 
 public class RatesFragment extends Fragment {
+
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     private final RatesComponent component;
 
@@ -33,7 +38,6 @@ public class RatesFragment extends Fragment {
     private RatesAdapter adapter;
 
     private RatesViewModel viewModel;
-
 
     @Inject
     public RatesFragment(BaseComponent baseComponent) {
@@ -53,7 +57,6 @@ public class RatesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.menu_item_rate_text2);
         return inflater.inflate(R.layout.fragment_rate, container, false);
     }
 
@@ -67,15 +70,20 @@ public class RatesFragment extends Fragment {
         binding.recycler.setHasFixedSize(true);
         binding.rateSwipeRefresh.setOnRefreshListener(viewModel::refresh);
         binding.rateSwipeRefresh.setColorSchemeColors(Color.MAGENTA, Color.CYAN, Color.GREEN);
-        viewModel.coins().observe(getViewLifecycleOwner(), (coins) -> adapter.submitList(coins));
-        viewModel.isRefreshing().observe(getViewLifecycleOwner(), (refreshing) -> binding.rateSwipeRefresh.setRefreshing(refreshing));
+        disposable.add(viewModel.coins().subscribe(adapter::submitList));
+        disposable.add(viewModel.onError().subscribe(e ->
+                Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Retry", v -> viewModel.retry())
+                        .show()));
+        disposable.add(viewModel.isRefreshing().subscribe(binding.rateSwipeRefresh::setRefreshing));
 
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         binding.recycler.swapAdapter(null, false);
-        super.onDestroy();
+        disposable.clear();
+        super.onDestroyView();
     }
 
     @Override

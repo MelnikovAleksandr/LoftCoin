@@ -1,71 +1,93 @@
 package com.mas.loftcoin.ui.rates;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.mas.loftcoin.data.Coin;
 import com.mas.loftcoin.data.CoinsRepo;
 import com.mas.loftcoin.data.CurrencyRepo;
 import com.mas.loftcoin.data.SortBy;
+import com.mas.loftcoin.util.RxSchedulers;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
+
 public class RatesViewModel extends ViewModel {
 
-    private final MutableLiveData<Boolean> isRefreshing = new MutableLiveData<>();
+    private final Subject<Boolean> isRefreshing = BehaviorSubject.create();
 
-    private final MutableLiveData<AtomicBoolean> forceRefresh = new MutableLiveData<>(new AtomicBoolean(false));
+    private final Subject<Class<?>> pullToRefresh = BehaviorSubject.createDefault(Void.TYPE);
 
-    private final MutableLiveData<SortBy> sortBy = new MutableLiveData<>(SortBy.RANK);
+    private final Subject<SortBy> sortBy = BehaviorSubject.createDefault(SortBy.RANK);
 
-    private final LiveData<List<Coin>> coins;
+    private final Subject<Throwable> error = PublishSubject.create();
+
+    private final Subject<Class<?>> onRetry = PublishSubject.create();
+
+    private final AtomicBoolean forceUpdate = new AtomicBoolean();
+
+    private final Observable<List<Coin>> coins;
+
+    private final RxSchedulers schedulers;
 
     private int sortingIndex = 1;
 
     @Inject
-    public RatesViewModel(CoinsRepo coinsRepo, CurrencyRepo currencyRepo) {
-        final LiveData<CoinsRepo.Query> query = Transformations.switchMap(forceRefresh, (r) -> {
-            return Transformations.switchMap(currencyRepo.currency(), (c) -> {
-                r.set(true);
-                isRefreshing.postValue(true);
-                return Transformations.map(sortBy, (s) -> {
-                    return CoinsRepo.Query.builder()
-                            .currency(c.code())
-                            .forceUpdate(r.getAndSet(false))
-                            .sortBy(s)
-                            .build();
-                });
-            });
-        });
+    public RatesViewModel(CoinsRepo coinsRepo, CurrencyRepo currencyRepo, RxSchedulers schedulers) {
+        this.schedulers = schedulers;
+        this.coins = pullToRefresh
+                .map(ptr -> CoinsRepo.Query.builder())
+                .switchMap(qb -> currencyRepo.currency()
+                        .map(c -> qb.currency(c.code())))
+                .doOnNext(qb -> forceUpdate.set(true))
+                .doOnNext(qb -> isRefreshing.onNext(true))
+                .switchMap(qb -> sortBy.map(qb::sortBy))
+                .map(qb -> qb.forceUpdate(forceUpdate.getAndSet(false)))
+                .map(CoinsRepo.Query.Builder::build)
+                .switchMap(q -> coinsRepo.listings(q)
+                        .doOnError(error::onNext)
+                        .retryWhen(e -> onRetry)
+                        .onErrorReturnItem(Collections.emptyList())
+                )
+                .doOnEach(ntf -> isRefreshing.onNext(false))
+                .replay(1)
+                .autoConnect();
 
-        final LiveData<List<Coin>> coins = Transformations.switchMap(query, coinsRepo::listings);
-        this.coins = Transformations.map(coins, (c) -> {
-            isRefreshing.postValue(false);
-            return c;
-        });
     }
 
     @NonNull
-    LiveData<List<Coin>> coins() {
-        return coins;
+    Observable<List<Coin>> coins() {
+        return coins.observeOn(schedulers.main());
     }
 
     @NonNull
-    LiveData<Boolean> isRefreshing() {
-        return isRefreshing;
+    Observable<Boolean> isRefreshing() {
+        return isRefreshing.observeOn(schedulers.main());
     }
+
+    @NonNull
+    Observable<Throwable> onError() {
+        return error.observeOn(schedulers.main());
+    }
+
 
     final void refresh() {
-        forceRefresh.postValue(new AtomicBoolean(true));
+        pullToRefresh.onNext(Void.TYPE);
     }
 
     void switchSortingOrder() {
-        sortBy.postValue(SortBy.values()[sortingIndex++ % SortBy.values().length]);
+        sortBy.onNext(SortBy.values()[sortingIndex++ % SortBy.values().length]);
+    }
+
+    void retry() {
+        onRetry.onNext(Void.class);
     }
 }
