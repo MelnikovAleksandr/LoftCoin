@@ -6,4 +6,9 @@
             android:icon="@drawable/ic_menu_add_24"
             app:showAsAction="always"
             android:title="@string/wallets_menu_new_wallet" />
+        <item
+            android:id="@+id/menu_del_wallet"
+            android:icon="@drawable/ic_baseline_delete_24"
+            app:showAsAction="always"
+            android:title="delete wallet" />
 </menu>

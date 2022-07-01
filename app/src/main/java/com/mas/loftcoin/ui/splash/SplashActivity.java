@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
@@ -31,10 +32,14 @@ public class SplashActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
 
+    @VisibleForTesting
+    SplashIdling idling = new NoopIdling();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
         final Animation animationRotateCenterUP = AnimationUtils.loadAnimation(
                 this, R.anim.rotate_center_clockwise);
         final Animation animationRotateCenterDown = AnimationUtils.loadAnimation(
@@ -43,6 +48,7 @@ public class SplashActivity extends AppCompatActivity {
         ImageView imageView2 = findViewById(R.id.start_bottom_corner);
         imageView1.startAnimation(animationRotateCenterUP);
         imageView2.startAnimation(animationRotateCenterDown);
+
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         compositeDisposable.add(Completable.timer(3000, TimeUnit.MILLISECONDS)
@@ -52,12 +58,15 @@ public class SplashActivity extends AppCompatActivity {
                 {
                     if (preferences.getBoolean(WelcomeActivity.KEY_SHOW_WELCOME, true)) {
                         startActivity(new Intent(this, WelcomeActivity.class));
+                        idling.idle();
                     } else {
                         startActivity(new Intent(this, MainActivity.class));
+                        idling.idle();
                     }
                 }, throwable -> {
                     Toast.makeText(getApplicationContext(), throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }));
+        idling.busy();
 
     }
 
@@ -65,5 +74,17 @@ public class SplashActivity extends AppCompatActivity {
     protected void onStop() {
         compositeDisposable.dispose();
         super.onStop();
+    }
+
+    private static class NoopIdling implements SplashIdling {
+        @Override
+        public void busy() {
+
+        }
+
+        @Override
+        public void idle() {
+
+        }
     }
 }
