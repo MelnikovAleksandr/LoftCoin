@@ -22,9 +22,9 @@ public class LoftApp extends Application {
         component = DaggerAppComponent.builder()
                 .application(this)
                 .build();
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(instanceIdResult -> {
-            Timber.d("fcm: %s", instanceIdResult.getResult());
-        });
+//        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(instanceIdResult -> {
+//            Timber.d("fcm: %s", instanceIdResult.getResult());
+//        });
     }
 
     public BaseComponent getComponent() {

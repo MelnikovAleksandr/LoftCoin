@@ -1,11 +1,7 @@
 package com.mas.loftcoin.util;
 
-import static org.junit.Assert.*;
-
 import android.content.Context;
 
-import androidx.core.os.ConfigurationCompat;
-import androidx.core.os.LocaleListCompat;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -44,14 +40,4 @@ public class PriceFormatterTest {
                 .format("RUB", 1.23)).isEqualTo(NumberFormat
                 .getCurrencyInstance(new Locale("ru", "RU")).format(1.23));
     }
-
-//    @Test
-//    public void format_default() {
-//        final LocaleListCompat locales = ConfigurationCompat
-//                .getLocales(context.getResources().getConfiguration());
-//
-//        Truth.assertThat(formatter
-//                .format("CAD", 1.23)).isEqualTo(NumberFormat
-//                .getCurrencyInstance(locales.get(1)).format(1.23));
-//    }
 }

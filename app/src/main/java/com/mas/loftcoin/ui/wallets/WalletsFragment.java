@@ -144,7 +144,9 @@ public class WalletsFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (R.id.menu_add_wallet == item.getItemId()) {
             disposable.add(viewModel.addWallet().subscribe());
-            return true;
+
+        } else if (R.id.menu_del_wallet == item.getItemId()) {
+
         }
         return super.onOptionsItemSelected(item);
     }

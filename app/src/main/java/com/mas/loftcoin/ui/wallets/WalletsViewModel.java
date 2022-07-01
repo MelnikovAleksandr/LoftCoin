@@ -18,7 +18,6 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
-import timber.log.Timber;
 
 class WalletsViewModel extends ViewModel {
 
