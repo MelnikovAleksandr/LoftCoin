@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="?attr/walletCardWidth"
+    android:layout_height="?attr/walletCardHeight"
+    android:background="@drawable/bg_wallet_card">
+
+    <ImageView
+        android:id="@+id/logo_wallet"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_wallet_card"
+        app:layout_constraintBottom_toTopOf="@+id/wallet_image"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+
+    <ImageView
+        android:id="@+id/wallet_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/wallet_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/symbol"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="BTC"
+        android:textAppearance="?attr/textAppearanceHeadline4"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/wallet_image"
+        app:layout_constraintStart_toEndOf="@+id/logo_wallet" />
+
+    <TextView
+        android:id="@+id/balance1_wallet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="26dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="2.77744 BTC"
+        android:textAppearance="?attr/textAppearanceHeadline3"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/balance2_wallet"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/balance2_wallet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="26dp"
+        android:layout_marginBottom="26dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="2.77744 $"
+        android:textColor="@color/grey_blue"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LoftCoin</string>
+
+    <string name="welcome_page_1_title">Buying and selling</string>
+    <string name="welcome_page_1_subtitle">Buy when cheap, sell when expensive</string>
+    <string name="welcome_page_2_title">Cryptocurrency rate</string>
+    <string name="welcome_page_2_subtitle">Follow the exchange rate and react in time to changes in price dynamics</string>
+    <string name="welcome_page_3_title">Currency Converter</string>
+    <string name="welcome_page_3_subtitle">Find out how much ether is in one bitcoin</string>
+    <string name="start_working">GET STARTED</string>
+
+    <string name="menu_item_accounts_text">Wallets</string>
+    <string name="menu_item_rate_text">Rate</string>
+    <string name="menu_item_rate_text2">General analysis</string>
+    <string name="menu_item_converter_text">Converter</string>
+
+    <string name="wallets_menu_new_wallet">New wallet</string>
+
+    <string name="rate_menu_item_sort">Sorting</string>
+    <string name="rate_menu_item_currency">Currency</string>
+
+    <string name="choose_currency">Currency selection</string>
+    <string name="usd">Dollar | USD</string>
+    <string name="eur">Euro | EUR</string>
+    <string name="rub">Ruble | RUB</string>
+
+</resources>
